@@ -19,7 +19,7 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|string|confirmed|min:6',
             'password_confirmation' => 'required',
-            'profile_image' => 'nullable|mime:png,jpg|max-size:2048',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
         if($validation->fails()){
@@ -37,7 +37,6 @@ class AuthController extends Controller
             $image->storeAs('profile_image', $image_name);
             $profile_image = 'storage/profile_image/'.$image_name;
         }
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -50,7 +49,7 @@ class AuthController extends Controller
 
         // send registeration confirm mail
 
-        Mail::to($user->email)->send(new RegistrationConfirmationMail($user));
+        // Mail::to($user->email)->send(new RegistrationConfirmationMail($user));
         
         return response()->json([
             'status'=> true,
