@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
     public function memberRegistration(Request $request){
-
+        
         $validation = Validator::make($request->all(), [
             'name' => 'required',
             'email' => 'required|email|unique:users',
@@ -49,7 +49,7 @@ class AuthController extends Controller
 
         // send registeration confirm mail
 
-        // Mail::to($user->email)->send(new RegistrationConfirmationMail($user));
+        Mail::to($user->email)->send(new RegistrationConfirmationMail($user));
         
         return response()->json([
             'status'=> true,
